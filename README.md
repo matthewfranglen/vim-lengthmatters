@@ -34,8 +34,8 @@ git clone https://github.com/whatyouhide/vim-lengthmatters.git ~/.vim/bundle
 
 ## What's in it
 
-The highlighting functionality operates always on a **per-window** basis,
-meaning you can keep it enabled on a window and disabled on another one at the
+The highlighting functionality operates always on a **per-buffer** basis,
+meaning you can keep it enabled on a buffer and disabled on another one at the
 same time.
 
 By default, it's based on the value of the `textwidth` option (it *feels*
@@ -44,13 +44,13 @@ infos.
 
 The plugin provides a bunch of commands:
 
-- `:LengthmattersToggle`: toggle the highlighting for the current window
-- `:LengthmattersEnable`: enable the highlighting for the current window
-- `:LengthmattersDisable`: disable the highlighting for the current window
+- `:LengthmattersToggle`: toggle the highlighting for the current buffer
+- `:LengthmattersEnable`: enable the highlighting for the current buffer
+- `:LengthmattersDisable`: disable the highlighting for the current buffer
 - `:LengthmattersReload`: force reloading (useful if something goes wrong, or
     `textwidth` changes, or god knows what)
-- `:LengthmattersEnableAll`: enable the highlighting for all open windows
-- `:LengthmattersDisableAll`: disable the highlighting for all open windows
+- `:LengthmattersEnableAll`: enable the highlighting for all open buffers
+- `:LengthmattersDisableAll`: disable the highlighting for all open buffers
 
 
 ## Configuration
@@ -69,7 +69,7 @@ the [relative section](#hl) for how to do it.
 
 (defaults to `1`)  
 If this variable is set to `0`, no highlighting will be done
-when opening a new window. Highlighting can still be activated with one of the
+when opening a new buffer. Highlighting can still be activated with one of the
 previously mentioned commands.
 
 #### `g:lengthmatters_start_at_column`
