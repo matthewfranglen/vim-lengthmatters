@@ -58,7 +58,7 @@ endfunction
 " match of the current buffer if available, unless the textwidth has changed. If
 " it has, force a reload by disabling the highlighting and re-enabling it.
 function! s:Enable()
-  let w:lengthmatters_active = 1
+  let b:lengthmatters_active = 1
 
   " Do nothing if this is an excluded filetype.
   if s:ShouldBeDisabled() | return | endif
@@ -70,22 +70,22 @@ function! s:Enable()
   " time.
   if s:ShouldUseTw() && s:TwChanged()
     call s:Disable()
-    let w:lengthmatters_active = 1
-    let w:lengthmatters_tw = &tw
+    let b:lengthmatters_active = 1
+    let b:lengthmatters_tw = &tw
   endif
 
   call s:Highlight()
 
   " Create a new match if it doesn't exist already (in order to avoid creating
   " multiple matches for the same buffer).
-  if !exists('w:lengthmatters_match')
+  if !exists('b:lengthmatters_match')
     let l:column = s:ShouldUseTw() ? &tw + 1 : g:lengthmatters_start_at_column
     if g:lengthmatters_highlight_one_column == 1
         let l:regex = '\%' . l:column . 'v.'
     else
         let l:regex = '\%' . l:column . 'v.\+'
     endif
-    let w:lengthmatters_match = matchadd(g:lengthmatters_match_name, l:regex)
+    let b:lengthmatters_match = matchadd(g:lengthmatters_match_name, l:regex)
   endif
 endfunction
 
@@ -93,18 +93,18 @@ endfunction
 " Force the disabling of the highlighting and delete the match of the current
 " buffer, if available.
 function! s:Disable()
-  let w:lengthmatters_active = 0
+  let b:lengthmatters_active = 0
 
-  if exists('w:lengthmatters_match')
-    call matchdelete(w:lengthmatters_match)
-    unlet w:lengthmatters_match
+  if exists('b:lengthmatters_match')
+    call matchdelete(b:lengthmatters_match)
+    unlet b:lengthmatters_match
   endif
 endfunction
 
 
 " Toggle between active and inactive states.
 function! s:Toggle()
-  if !exists('w:lengthmatters_active') || !w:lengthmatters_active
+  if !exists('b:lengthmatters_active') || !b:lengthmatters_active
     call s:Enable()
   else
     call s:Disable()
@@ -140,7 +140,7 @@ endfunction
 " Return true if the textwidth has changed since the last time this plugin saw
 " it. We're assuming that no recorder tw means it changed.
 function! s:TwChanged()
-  return !exists('w:lengthmatters_tw') || &tw != w:lengthmatters_tw
+  return !exists('b:lengthmatters_tw') || &tw != b:lengthmatters_tw
 endfunction
 
 
@@ -148,16 +148,16 @@ endfunction
 " script). It disables the highlighting on the excluded filetypes and enables it
 " if it wasn't enabled/disabled before or if there's a new textwidth.
 function! s:AutocmdTrigger()
-  if !exists('w:lengthmatters_active')
+  if !exists('b:lengthmatters_active')
     if g:lengthmatters_on_by_default
       call s:Enable()
     endif
   elseif s:ShouldBeDisabled()
-    if w:lengthmatters_active
+    if b:lengthmatters_active
       call s:Disable()
-      let w:lengthmatters_active = 1
+      let b:lengthmatters_active = 1
     endif
-  elseif w:lengthmatters_active
+  elseif b:lengthmatters_active
     call s:Enable()
   endif
 endfunction
